@@ -48,7 +48,8 @@ namespace GitlabSearchAcrossProjects
                 }
                 catch (WebException ex)
                 {
-                    MessageBox.Show("Version check failed:\n" + ex.ToString());
+                    if(ex.Response.Headers.Get("Status") != "403")
+                        MessageBox.Show("Version check failed:\n" + ex.ToString());
                 }
             }
         }
