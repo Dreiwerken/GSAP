@@ -32,11 +32,28 @@ namespace GitlabSearchAcrossProjects
 
         private void getProjects_Click(object sender, EventArgs e)
         {
+            baseURL.Text = baseURL.Text.Trim();
+            apiKey.Text = apiKey.Text.Trim();
+
+            if (baseURL.Text == "" || apiKey.Text == "")
+            {
+                MessageBox.Show("Please fill the base url & api key textbox", this.Text);
+                return;
+            }
+
             this.Size = new System.Drawing.Size(555, 270);
             Properties.Settings.Default["LastAPIKey"] = apiKey.Text;
             Properties.Settings.Default["LastBaseUrl"] = baseURL.Text;
             Properties.Settings.Default.Save();
-            getProjectsDownload();
+            try
+            {
+                getProjectsDownload();
+            }
+            catch(Exception ex)
+            {
+                downloadProgress.Visible = false;
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void clearCache_Click(object sender, EventArgs e)
@@ -45,13 +62,11 @@ namespace GitlabSearchAcrossProjects
                 Directory.Delete(cachePath, true);
 
             Directory.CreateDirectory(cachePath);
-            MessageBox.Show("Cache cleard", this.Text);
+            MessageBox.Show("Cache cleared", this.Text);
         }
 
         private void getProjectsDownload(int page = 1, WebClient webWorker = null)
         {
-            // http://repo.dreiwerken.intern/api/v3/projects/all?page=20&per_page=100&private_token=GsQ2fEh9k9TGgqsX5b9z
-
             if(File.Exists(cachePath+"projectIds.json"))
             {
                 projectIds = JsonConvert.DeserializeObject<Dictionary<int, string>>(File.ReadAllText(cachePath + "projectIds.json"));
@@ -105,8 +120,6 @@ namespace GitlabSearchAcrossProjects
 
         private void getProjectFilesDownload(Stack<int> workList, WebClient webWorker = null)
         {
-            // http://repo.dreiwerken.intern/api/v3/projects/861/repository/tree/?path=/&recursive=true
-
             if (File.Exists(cachePath + "projectFiles.json"))
             {
                 projectFiles = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(File.ReadAllText(cachePath + "projectFiles.json"));

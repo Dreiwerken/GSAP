@@ -32,8 +32,8 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.<#= this.RevisionNumber #>")]
-[assembly: AssemblyFileVersion("1.0.0.<#= this.RevisionNumber #>")]
+[assembly: AssemblyVersion("1.0.1.<#= this.RevisionNumber #>")]
+[assembly: AssemblyFileVersion("1.0.1.<#= this.RevisionNumber #>")]
 <#+
     int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2017, 2, 8)).TotalDays;
 #>
