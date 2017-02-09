@@ -15,7 +15,8 @@ namespace GitlabSearchAcrossProjects
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            VersionCheck.CheckForUpdate();
+            Application.Run(new MainForm());
         }
     }
 }
